@@ -5,19 +5,102 @@ $(document).ready(() => {
     $(".quiz").fadeOut();
     $.getJSON('plant-data.json', (data) => {
       
-      index = 1
+      
 
-      const appendContent = (el) => {
-
-
-      }
-
-      allPlantName = []
+      var allPlantName = []
       data.forEach(el => {
         allPlantName.push(el.CommenName)
       })
+      
 
 
+      const toQuiz = (el, index) => {
+        const toReturn = () => {
+
+          $("main").fadeOut();
+          $(".quiz").removeClass('z-10');
+          $("main").addClass('z-0');
+          $(".quiz").removeClass('z-0');
+          $(".quiz").addClass('z-10');
+          $(".quiz").fadeIn(400);
+
+          
+          
+          
+          var correctAnsIndex = allPlantName.indexOf(el.CommenName)
+          var answerIndexes = [0,0,0,0,0]
+          var orderIndexes = []
+          var answerOptions = []
+          var x = Math.floor((Math.random() * 22) + 1);
+          for(i = 0; i < 3; i++){
+            var x = Math.floor((Math.random() * 22) + 1);
+            while(answerIndexes.includes(x)){
+              var x = Math.floor((Math.random() * 22) + 1);
+            }
+            
+            var y = Math.floor((Math.random() * 4) + 1);
+            while(orderIndexes.includes(y)){
+              var y = Math.floor((Math.random() * 4) + 1);
+            }
+            orderIndexes.push[y]
+            answerIndexes[y - 1] = x - 1
+             
+          }
+          
+          answerIndexes[answerIndexes.indexOf(0)] = correctAnsIndex
+          for(i=0; i < 4; i++){
+            answerOptions[i] = allPlantName[answerIndexes[i]]
+          }
+          
+          console.log(answerOptions)
+          for(i = 0; i < answerIndexes.length - 1; i++){
+            $('.choices').append(`<input class="" type="checkbox" id="option${i}" name="${answerOptions[i]}" value="${answerOptions[i]}">
+            <label class=" option${i} cursor-pointer h-10 border-solid border-2 border-blue-400 flex justify-center items-center rounded-full py-3 px-6 hover:bg-blue-400  hover:text-white transition ease-out duration-300"  for="option${i}"> ${answerOptions[i]}</label><br>
+            `)
+
+          }
+          
+          
+          
+
+          // change the color of each button when being clicked
+          alterColor = (y) => {
+            alterColorToReturn = () => {
+              $(`.option${y}`).addClass('bg-blue-400')
+            } 
+            return alterColorToReturn
+          }
+
+          for(x = 0; x < answerIndexes.length - 1; x++){
+   
+            alterColor(x)
+  
+          }
+    
+          //check selected option
+          $('#checkBtn').click(() => {
+            
+            for(x = 0; x < answerIndexes.length - 1; x++){
+              //console.log($(`#option${x}`).val())
+              if ($(`#option${x}`).is(":checked")) {
+                
+                if ($(`#option${x}`).val() === el.CommenName) {
+                  console.log("Correct answer")
+                  break
+                }
+                
+              }
+
+            }
+            //console.log("Wrong answer")
+          })
+        }
+               
+        return toReturn  
+        
+      }
+
+      var index = 1
       data.forEach(el => {
         
         $('.cardContainer').append(`<div class="card${index} rounded-lg bg-white border-gray-200 shadow-md overflow-hidden relative transform hover:scale-110  hover:shadow-lg transition ease-out duration-300"> 
@@ -33,69 +116,14 @@ $(document).ready(() => {
         </div>
         </div>`)
 
-        $(`.card${index}`).click((e) => {
-        
-          $("main").fadeOut();
-          $(".quiz").removeClass('z-10');
-          $("main").addClass('z-0');
-          $(".quiz").removeClass('z-0');
-          $(".quiz").addClass('z-10');
-          $(".quiz").fadeIn(400);
-  
-          
-          
-          
-          
-          $('.choices').append(`<input class="" type="checkbox" id="option${index}" name="${el.CommenName}" value="${el.CommenName}">
-            <label class=" option${index} cursor-pointer h-10 border-solid border-2 border-blue-400 flex justify-center items-center rounded-full py-3 px-6 hover:bg-blue-400  hover:text-white transition ease-out duration-300" onClick="" for="option${index}"> ${el.CommenName}</label><br>
-            `)
-          
-          
 
-          // change the color of each button when being clicked
-          alterColor = (y) => {
-            alterColorToReturn = () => {
-              $(`.option${y}`).addClass('bg-blue-400')
-            } 
-            return alterColorToReturn
-          }
-
-          for(x = 1; x < i; x++){
-            
-            $(`.option${x}`).click(
-              (e) => {
-                $(`.option${x}`).addClass('bg-blue-400')
-              }
-              //alterColor(x)
-              
-             )
-          }
-          
         
+        $(`.card${index}`).click( 
           
-          //check selected option
-          $('#checkBtn').click(() => {
-            
-            for(x = 1; x < i; x++){
-              //console.log($(`#option${x}`).val())
-              if ($(`#option${x}`).is(":checked")) {
-                
-                if ($(`#option${x}`).val() === data[0].CommenName) {
-                  console.log("Correct answer")
-                  break
-                }
-                
-              }
-  
-            }
-  
-            //console.log("Wrong answer")
-    
-            
-    
-          })
-    
-      });
+          toQuiz(el, index)
+        
+
+      );
 
 
 
