@@ -2,104 +2,255 @@
 
 $(document).ready(() => {
 
+
+    const appendOptions = (allOptions, el, correctAns) => {
+
+      
+      //append options to the question about a plant's name
+      var correctAnsIndex = allOptions.indexOf(correctAns)
+      var answerIndexes = [-1,-1,-1,-1,-1]
+      var answerOptions = []
+      var correctAnsPos = Math.floor((Math.random() * 4) + 1);
+      answerIndexes[correctAnsPos] = correctAnsIndex
+      for(i = 0; i < 4; i++){
+        var x = Math.floor((Math.random() * allOptions.length - 1) + 1);
+        while(answerIndexes.includes(x) || x === correctAnsIndex){
+          var x = Math.floor((Math.random() * allOptions.length - 1) + 1);
+        }
+        answerIndexes[answerIndexes.indexOf(-1)] = x
+      }
+      for(i=0; i <= 4; i++){
+        answerOptions[i] = allOptions[answerIndexes[i]]
+      }
+      console.log(answerOptions)
+      $('.choices').fadeOut(300)
+
+
+      setTimeout(() => {
+        $('.choices').empty()
+        for(i = 0; i < answerIndexes.length; i++){
+          $('.choices').append(`<input class="hidden" type="checkbox" id="option${i}" name="${answerOptions[i]}" value="${answerOptions[i]}">
+          <label class=" option${i} cursor-pointer h-10 border-solid border-2 border-blue-400 flex justify-center items-center rounded-full py-3 px-6 hover:bg-blue-400  hover:text-white transition ease-out duration-300" for="option${i}"> ${answerOptions[i]}</label><br>
+          `)
+          }
+
+        // change the color of each button when being clicked
+      alterColor = (y) => {
+        alterColorToReturn = () => {
+          
+          $(`.option${y}`).addClass('bg-blue-400')
+          $(`.option${y}`).addClass('text-white')
+          //$(`#option${y}`).prop('disabled', false);
+            
+          
+          
+          for(x = 0; x < answerIndexes.length; x++){
+            if (x === y){
+              continue
+            }else{
+              $(`.option${x}`).removeClass('bg-blue-400')
+              $(`.option${x}`).removeClass('text-white')
+              //$(`#option${x}`).prop('disabled', true);
+              $(`#option${x}`).prop('checked', false);
+
+
+            }
+          }
+        } 
+        return alterColorToReturn
+      }
+      for(x = 0; x < answerIndexes.length; x++){
+        $(`.option${x}`).click(alterColor(x))
+      } 
+      }, 300);
+      
+      $('.choices').fadeIn(300) 
+
+      $("#checkBtn").remove()
+      
+      $(".buttomBtns").prepend(`<button class=" w-20  py-1 bg-green-600 text-white rounded-md focus:ring-4 focus:ring-green-500 focus:ring-opacity-50" id="checkBtn">
+    Check
+  </button>
+  `)
+        
+      
+      
+      
+
+     
+       
+
+      
+      $('.notification').fadeOut()
+      //check selected option
+      $('#checkBtn').click(() => {
+        $('.notification').empty()
+        clearTimeout(toggle2)
+        clearTimeout(toggle1)
+        correct = 0
+        optionsSelected = 0
+        for(x = 0; x <= answerIndexes.length - 1; x++){
+          //console.log($(`#option${x}`).val())
+          if ($(`#option${x}`).is(":checked")) {
+            optionsSelected++
+            
+            if ($(`#option${x}`).val() === correctAns) {
+              correct = true
+            }
+            
+          }
+
+        }
+
+        //pop up notification based the answer
+        if(correct === true){
+         
+          $('.notification').append(`<div class=" correct bg-green-500 px-3 py-2 rounded-lg text-white">
+              <span>Correct answer! Good job!</span>
+            </div>`)
+ 
+        }else{
+          $('.notification').append(
+            `<div class="worng bg-red-500 px-3 py-2 rounded-lg text-white">
+            <span>Wrong answer! Please try again!</span>
+          </div>`
+          )
+
+        }
+        $('.notification').fadeIn(300)
+        var toggle1 =  setTimeout(() => {
+          $('.notification').fadeOut(300)
+        }, 1700);
+          
+       
+        
+  
+        var toggle2 =  setTimeout(() => {
+          $('.notification').empty()
+        }, 2000)
+        console.log(toggle1)
+        console.log(toggle2)
+      })
+    }
+
+
+    const toQuiz = (el, allPlantName, allPlantHabitat, allEatenPart) => {
+      const toReturn = () => {
+
+        $("main").fadeOut(400);
+        //$(".quiz").removeClass('z-10');
+        $("main").addClass('z-0');
+        $(".quiz").removeClass('z-0');
+        $(".quiz").addClass('z-10');
+        $(".quiz").fadeIn(400);
+
+        
+        $('.quizImageLg').attr('src', el.imageL)
+        $('#nexBtn').remove()
+        $('.buttomBtns').append(` <button class=" w-20  py-1 bg-green-600 text-white rounded-md focus:ring-4 focus:ring-green-500 focus:ring-opacity-50" id="nexBtn">
+        Next
+      </button> `)
+        appendOptions(allPlantName, el, el.CommenName)
+        
+        var numOfQuesCompleted = [1]
+        $(`#nexBtn`).click(
+          toNextQuiz(el, allPlantHabitat, allEatenPart, numOfQuesCompleted)
+          
+        )
+        
+      }        
+      return toReturn     
+    }
+
+    const toNextQuiz = (el, allPlantHabitat, allEatenPart, numOfQuesCompleted) => {
+      const toReturn = () => {
+        var mapQuestions = {
+          0: "Plant name",
+          1: "Eaten part",
+          2: "Habitat"
+        }
+
+        if($('#nexBtn').text() === "Finish"){
+
+          $(".quiz").fadeOut(400);
+          $("main").removeClass('z-0');
+          $("main").addClass('z-10');
+          $(".quiz").removeClass('z-10');
+          $(".quiz").addClass('z-0');
+          $("main").fadeIn(400);
+          let length = numOfQuesCompleted.length
+          console.log(numOfQuesCompleted.length)
+          for(i = 0; i < length; i++){
+            numOfQuesCompleted.pop()
+          }
+
+          
+          
+        }
+
+        console.log("numOfQuesCompleted.length: " + numOfQuesCompleted.length)
+        if(numOfQuesCompleted.length === 3){
+          $('#nexBtn').text("Finish")
+
+        }
+
+       
+
+
+        var x = Math.floor((Math.random() * 2) + 1);
+        while(mapQuestions[x] === $('#quizQues').attr('name')){
+          var x = Math.floor((Math.random() * 2) + 1);
+        }
+        $('#quizQues').fadeOut(200)
+        setTimeout(() => {
+
+          if(x === 1){
+            $('#quizQues').attr('name', "Eaten part")
+            $('#quizQues').text("Which part of the plant can be eaten?")
+            let partEaten = el.PartEaten[0]
+            appendOptions(allEatenPart, el, partEaten)
+          }else if(x === 2){
+            $('#quizQues').attr('name', "Habitat")
+            $('#quizQues').text("Where can we find it?")
+            let Habitat = el.Habitat[0]
+            appendOptions(allPlantHabitat, el, Habitat)
+          }
+          
+        }, 200);
+        
+        $('#quizQues').fadeIn(200)
+        //$(".buttomBtns").empty()
+    
+        
+       // appendOptions(el, )
+       numOfQuesCompleted.push(1)
+
+      }
+
+      return toReturn
+
+    }
+
     $(".quiz").fadeOut();
+    
+
+    
+
+
     $.getJSON('plant-data.json', (data) => {
       
       
 
       var allPlantName = []
+      var allPlantHabitat = ["0W", "MW", "Riverene / SFR", "Monsoon Vine Thicket", "Sandsheet / Flood plain", "Coastal", "Rocky / Escarpment", "Wetland"]
+      var allEatenPart = ["Seed", "Root", "Fleshy fruit", "Flowers", "Stem"]
+
       data.forEach(el => {
         allPlantName.push(el.CommenName)
       })
-      
 
-
-      const toQuiz = (el, index) => {
-        const toReturn = () => {
-
-          $("main").fadeOut();
-          $(".quiz").removeClass('z-10');
-          $("main").addClass('z-0');
-          $(".quiz").removeClass('z-0');
-          $(".quiz").addClass('z-10');
-          $(".quiz").fadeIn(400);
-
-          
-          
-          
-          var correctAnsIndex = allPlantName.indexOf(el.CommenName)
-          var answerIndexes = [0,0,0,0,0]
-          var orderIndexes = []
-          var answerOptions = []
-          var x = Math.floor((Math.random() * 22) + 1);
-          for(i = 0; i < 3; i++){
-            var x = Math.floor((Math.random() * 22) + 1);
-            while(answerIndexes.includes(x)){
-              var x = Math.floor((Math.random() * 22) + 1);
-            }
-            
-            var y = Math.floor((Math.random() * 4) + 1);
-            while(orderIndexes.includes(y)){
-              var y = Math.floor((Math.random() * 4) + 1);
-            }
-            orderIndexes.push[y]
-            answerIndexes[y - 1] = x - 1
-             
-          }
-          
-          answerIndexes[answerIndexes.indexOf(0)] = correctAnsIndex
-          for(i=0; i < 4; i++){
-            answerOptions[i] = allPlantName[answerIndexes[i]]
-          }
-          
-          console.log(answerOptions)
-          for(i = 0; i < answerIndexes.length - 1; i++){
-            $('.choices').append(`<input class="" type="checkbox" id="option${i}" name="${answerOptions[i]}" value="${answerOptions[i]}">
-            <label class=" option${i} cursor-pointer h-10 border-solid border-2 border-blue-400 flex justify-center items-center rounded-full py-3 px-6 hover:bg-blue-400  hover:text-white transition ease-out duration-300"  for="option${i}"> ${answerOptions[i]}</label><br>
-            `)
-
-          }
-          
-          
-          
-
-          // change the color of each button when being clicked
-          alterColor = (y) => {
-            alterColorToReturn = () => {
-              $(`.option${y}`).addClass('bg-blue-400')
-            } 
-            return alterColorToReturn
-          }
-
-          for(x = 0; x < answerIndexes.length - 1; x++){
-   
-            alterColor(x)
-  
-          }
-    
-          //check selected option
-          $('#checkBtn').click(() => {
-            
-            for(x = 0; x < answerIndexes.length - 1; x++){
-              //console.log($(`#option${x}`).val())
-              if ($(`#option${x}`).is(":checked")) {
-                
-                if ($(`#option${x}`).val() === el.CommenName) {
-                  console.log("Correct answer")
-                  break
-                }
-                
-              }
-
-            }
-            //console.log("Wrong answer")
-          })
-        }
-               
-        return toReturn  
-        
-      }
-
+      console.log(allPlantHabitat)
+      console.log(allEatenPart)
       var index = 1
       data.forEach(el => {
         
@@ -118,16 +269,11 @@ $(document).ready(() => {
 
 
         
-        $(`.card${index}`).click( 
-          
-          toQuiz(el, index)
+        $(`.card${index}`).click(          
+          toQuiz(el, allPlantName, allPlantHabitat, allEatenPart)
+        );
+
         
-
-      );
-
-
-
-
         index++
       })
       
@@ -152,12 +298,6 @@ $(document).ready(() => {
     })
     
 
-
-  $('#nexBtn').click((e) => 
-  { 
-    $('#quizQues').html("Where can you find it?")
-
-  })
 
 
 })

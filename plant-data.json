@@ -1,7 +1,7 @@
 [
     {
         "CommenName":"Water lily",
-        "Habitat ": ["Wetland"],
+        "Habitat": ["Wetland"],
         "PartEaten": ["Seed", "Root"],
         "Family": "Nymphaceae",
         "Genus": "Nymphaeae",
@@ -11,7 +11,7 @@
     },
     {
         "CommenName":"Bush currant",
-        "Habitat ": ["0W", "Riverene / SFR", "Monsoon Vine Thicket"],
+        "Habitat": ["0W", "Riverene / SFR", "Monsoon Vine Thicket"],
         "PartEaten": ["Fleshy fruit"],
         "Family": "Phyllanthaceae",
         "Genus": "Antidesma",
@@ -21,7 +21,7 @@
     },
     {
         "CommenName":"Small bush potato",
-        "Habitat ": ["0W", "MW", "Riverene / SFR", "Sandsheet / Flood plain"],
+        "Habitat": ["0W", "MW", "Riverene / SFR", "Sandsheet / Flood plain"],
         "PartEaten": ["Root"],
         "Family": "Apocynaceae",
         "Genus": "Brachystelma",
@@ -31,7 +31,7 @@
     },
     {
         "CommenName":"Green lum",
-        "Habitat ": ["0W", "MW"],
+        "Habitat": ["0W", "MW"],
         "PartEaten": ["Fleshy fruit"],
         "Family": "Anacardiaceae",
         "Genus": "Buchanania",
@@ -42,7 +42,7 @@
     
     {
         "CommenName":"Kapok",
-        "Habitat ": ["0W", "MW"],
+        "Habitat": ["0W", "MW"],
         "PartEaten": ["Flowers", "Root"],
         "Family": "Bixaceae",
         "Genus": "Cochlospermum",
@@ -52,7 +52,7 @@
     },
     {
         "CommenName":"Lolly bush",
-        "Habitat ": ["Riverene / SFR"],
+        "Habitat": ["Riverene / SFR"],
         "PartEaten": ["Fleshy fruit"],
         "Family": "Rubiaceae",
         "Genus": "Cyclophyllum",
@@ -62,7 +62,7 @@
     },
     {
         "CommenName":"Round yam",
-        "Habitat ": ["Unknow"],
+        "Habitat": ["Unknow"],
         "PartEaten": ["Root"],
         "Family": "Dioscoreaceae",
         "Genus": "Dioscorea",
@@ -72,7 +72,7 @@
     },
     {
         "CommenName":"Native Cherry",
-        "Habitat ": ["0W", "MW", "Riverene / SFR", "Coastal"],
+        "Habitat": ["0W", "MW", "Riverene / SFR", "Coastal"],
         "PartEaten": ["Fleshy fruit"],
         "Family": "Santalaceae",
         "Genus": "Exocarpus",
@@ -82,7 +82,7 @@
     },
     {
         "CommenName":"Cluster fig",
-        "Habitat ": ["Riverene / SFR", "Monsoon Vine Thicket"],
+        "Habitat": ["Riverene / SFR", "Monsoon Vine Thicket"],
         "PartEaten": ["Fleshy fruit"],
         "Family": "Moraceae",
         "Genus": "Ficus",
@@ -92,7 +92,7 @@
     },
     {
         "CommenName":"White currant bush",
-        "Habitat ": ["Riverene / SFR", "Monsoon Vine Thicket", "Coastal"],
+        "Habitat": ["Riverene / SFR", "Monsoon Vine Thicket", "Coastal"],
         "PartEaten": ["Fleshy fruit"],
         "Family": "Phyllanthaceae",
         "Genus": "Fluggea",
@@ -102,7 +102,7 @@
     },
     {
         "CommenName":"Fern leaf grevillea",
-        "Habitat ": ["0W", "MW", "Riverene / SFR", "Sandsheet / Flood plain"],
+        "Habitat": ["0W", "MW", "Riverene / SFR", "Sandsheet / Flood plain"],
         "PartEaten": ["Flower"],
         "Family": "Proteaceae",
         "Genus": "Grevillea",
@@ -112,7 +112,7 @@
     },
     {
         "CommenName":"Sand palm",
-        "Habitat ": ["0W", "MW"],
+        "Habitat": ["0W", "MW"],
         "PartEaten": ["Stem"],
         "Family": "Arecaeae",
         "Genus": "Livistona",
@@ -122,7 +122,7 @@
     },
     {
         "CommenName":"Bush apricot",
-        "Habitat ": ["Riverene / SFR"],
+        "Habitat": ["Riverene / SFR"],
         "PartEaten": ["Fleshy fruit"],
         "Family": "Annonaceae",
         "Genus": "Meiogyne",
@@ -132,7 +132,7 @@
     },
     {
         "CommenName":"Native lasiandra",
-        "Habitat ": ["Riverene / SFR"],
+        "Habitat": ["Riverene / SFR"],
         "PartEaten": ["Fleshy fruit"],
         "Family": "Melastomaceae",
         "Genus": "Melastoma",
@@ -142,7 +142,7 @@
     },
     {
         "CommenName":"Small pink bush apple",
-        "Habitat ": ["Riverene / SFR", "Monsoon Vine Thicket"],
+        "Habitat": ["Riverene / SFR", "Monsoon Vine Thicket"],
         "PartEaten": ["Fleshy fruit"],
         "Family": "Myrtaceae",
         "Genus": "Syzygium",
@@ -152,7 +152,7 @@
     },
     {
         "CommenName":"Red bush apple",
-        "Habitat ": ["0W", "MW"],
+        "Habitat": ["0W", "MW"],
         "PartEaten": ["Fleshy fruit"],
         "Family": "Myrtaceae",
         "Genus": "Syzygium",
@@ -162,7 +162,7 @@
     },
     {
         "CommenName":"Billy goat plum",
-        "Habitat ": ["0W"],
+        "Habitat": ["0W"],
         "PartEaten": ["Fleshy fruit"],
         "Family": "Combretaceae",
         "Genus": "Terminalia",
@@ -172,7 +172,7 @@
     },
     {
         "CommenName":"Wild grape",
-        "Habitat ": ["0W", "MW"],
+        "Habitat": ["0W", "MW"],
         "PartEaten": ["Fleshy fruit"],
         "Family": "Vitaceae",
         "Genus": "Ampelocissus",
@@ -182,7 +182,7 @@
     },
     {
         "CommenName":"Native nutmeg",
-        "Habitat ": ["Riverene / SFR"],
+        "Habitat": ["Riverene / SFR"],
         "PartEaten": ["Fleshy fruit"],
         "Family": "Myristicaceae",
         "Genus": "Myristica",
@@ -192,7 +192,7 @@
     },
     {
         "CommenName":"Milky plum",
-        "Habitat ": ["0W", "MW"],
+        "Habitat": ["0W", "MW"],
         "PartEaten": ["Fleshy fruit"],
         "Family": "Proteaceae",
         "Genus": "Persoonia",
@@ -202,7 +202,7 @@
     },
     {
         "CommenName":"Cocky apple",
-        "Habitat ": ["Rocky / Escarpment", "0W", "MW"],
+        "Habitat": ["Rocky / Escarpment", "0W", "MW"],
         "PartEaten": ["Fleshy fruit"],
         "Family": "Lecythidaceae",
         "Genus": "Planchonia",
