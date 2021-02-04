@@ -193,7 +193,7 @@ $(document).ready(() => {
     }
 
 
-    const toQuiz = (el, allPlantName, allPlantHabitat, allEatenPart, index) => {
+    const toQuiz = (el, nextElement, allPlantName, allPlantHabitat, allEatenPart, index) => {
       const toReturn = () => {
 
         $("main").fadeOut(400);
@@ -217,7 +217,7 @@ $(document).ready(() => {
         
         var numOfQuesCompleted = [1]
         $(`#nexBtn`).click(
-          toNextQuiz(el, allPlantHabitat, allEatenPart, numOfQuesCompleted, index)
+          toNextQuiz(el, nextElement, allPlantName, allPlantHabitat, allEatenPart, numOfQuesCompleted, index)
           
         )
         // get back to the quize list
@@ -245,7 +245,7 @@ $(document).ready(() => {
       return toReturn     
     }
 
-    const toNextQuiz = (el, allPlantHabitat, allEatenPart, numOfQuesCompleted, index) => {
+    const toNextQuiz = (el, nextElement, allPlantName, allPlantHabitat, allEatenPart, numOfQuesCompleted, index) => {
       const toReturn = () => {
         var mapQuestions = {
           0: "Plant name",
@@ -279,8 +279,8 @@ $(document).ready(() => {
           
         }
 
-        console.log("numOfQuesCompleted.length: " + numOfQuesCompleted.length)
-        if(numOfQuesCompleted.length === 2){
+        
+        if(numOfQuesCompleted.length === 5){
           $('#nexBtn').text("Finish")
 
         }
@@ -288,33 +288,67 @@ $(document).ready(() => {
        
 
         // show questions arbitrarily 
-        var x = Math.floor((Math.random() * 2) + 1);
-        while(mapQuestions[x] === $('#quizQues').attr('name')){
-          var x = Math.floor((Math.random() * 2) + 1);
-        }
-        $('#quizQues').fadeOut(200)
-        setTimeout(() => {
 
-          if(x === 1){
-            $('#quizQues').attr('name', "Eaten part")
-            $('#quizQues').text("Which part of the plant can be eaten?")
-            
-            appendOptions(allEatenPart, el, el.PartEaten)
-          }else if(x === 2){
-            $('#quizQues').attr('name', "Habitat")
-            $('#quizQues').text("Where can we find it?")
-            
-            appendOptions(allPlantHabitat, el, el.Habitat)
+        if(numOfQuesCompleted.length === 3){
+          $('.quizImageLg').attr('src', nextElement.imageL)
+          $('#quizQues').attr('name', "Plant name")
+          $('#quizQues').text("What is the name of this plant in the picture above?")
+          let nextElementCommenName = []
+          nextElementCommenName.push(nextElement.CommenName)  
+          appendOptions(allPlantName, nextElement, nextElementCommenName)
+          numOfQuesCompleted.push(1)
+
+        }else{
+          console.log("numOfQuesCompleted.length: " + numOfQuesCompleted.length)
+          var x = Math.floor((Math.random() * 2) + 1);
+          while(mapQuestions[x] === $('#quizQues').attr('name')){
+          var x = Math.floor((Math.random() * 2) + 1);
           }
-          
-        }, 200);
+          $('#quizQues').fadeOut(200)
+          setTimeout(() => {
+
+           
+              if(x === 1){
+                $('#quizQues').attr('name', "Eaten part")
+                $('#quizQues').text("Which part of the plant can be eaten?")
+                console.log("yes")
+                console.log("numOfQuesCompleted.length: " + numOfQuesCompleted.length)
+                if(numOfQuesCompleted.length < 3){
+                  console.log("yes")
+                  appendOptions(allEatenPart, el, el.PartEaten)
+                }else if(numOfQuesCompleted.length > 3){
+                  appendOptions(allEatenPart, nextElement, nextElement.PartEaten)
+                }
+                
+              }else if(x === 2){
+                $('#quizQues').attr('name', "Habitat")
+                $('#quizQues').text("Where can we find it?")
+                console.log("yes")
+                console.log("numOfQuesCompleted.length: " + numOfQuesCompleted.length)
+                if(numOfQuesCompleted.length < 3){
+                  console.log("yes")
+                  console.log("el.Habitat: " + el.Habitat)
+                  appendOptions(allPlantHabitat, el, el.Habitat)
+                }else if(numOfQuesCompleted.length > 3){
+                  appendOptions(allPlantHabitat, nextElement, nextElement.Habitat)
+                }
+
+            }
+            numOfQuesCompleted.push(1)
+    
+          }, 200);
+
+        } 
+        
+        
+        
         
         $('#quizQues').fadeIn(200)
         //$(".buttomBtns").empty()
     
         
        // appendOptions(el, )
-       numOfQuesCompleted.push(1)
+       
        $('#nexBtn').removeClass("visible")
        $('#nexBtn').addClass("invisible")
 
@@ -344,14 +378,27 @@ $(document).ready(() => {
 
       console.log(allPlantHabitat)
       console.log(allEatenPart)
-      var index = 1
-      data.forEach(el => {
+      console.log()
+      var index = 0
+      var quizNumber = 1
+      var landingPageData = []
+
+      for(i = 0; i <= data.length; i++ ){
+
+        if(i % 2 === 0){
+          landingPageData.push(data[i])
+
+        }
+      }
+      
+      //data.slice(0, Math.floor(data.length / 2) + 1)
+      landingPageData.forEach(el => {
         
         $('.cardContainer').append(`<div class="card${index} cursor-pointer rounded-lg bg-white border-gray-200 shadow-md overflow-hidden relative transform hover:scale-110  hover:shadow-lg transition ease-out duration-300"> 
         <img src="${el.imageS}" class="h-32 h-48 w-full object-cover">
         <div class="content${index} flex flex-row justify-between px-6 items-center  m-4">
           <div>
-            <span class="font-bold ">Quiz ${index}</span>
+            <span class="font-bold ">Quiz ${quizNumber}</span>
             <span class="quizSlogan${index} block text-gray-500 text-sm ">To be completed...</span>
           </div>
           
@@ -360,14 +407,21 @@ $(document).ready(() => {
 
         </div>`)
 
+        var nextElement = null
+        if(index < data.length - 1){
 
+          nextElement = data[index + 1]
+          console.log("nextElement:" + nextElement.CommenName)
+        }
         
+       
         $(`.card${index}`).click(          
-          toQuiz(el, allPlantName, allPlantHabitat, allEatenPart, index)
+          toQuiz(el, nextElement, allPlantName, allPlantHabitat, allEatenPart, index)
         );
 
         
-        index++
+        index += 2
+        quizNumber++
       })
       
 
