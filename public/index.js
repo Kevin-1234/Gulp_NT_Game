@@ -204,7 +204,7 @@ $(document).ready(() => {
         $(".quiz").fadeIn(400);
 
         
-        $('.quizImageLg').attr('src', el.imageL)
+        $('.quizImageLg').attr('src', el.imageS)
         $('#nexBtn').remove()
         $('.buttomBtns').append(` <button class=" w-24  invisible py-1 bg-green-600 text-white rounded-md focus:ring-4 focus:ring-green-500 focus:ring-opacity-50" id="nexBtn">
         Next
@@ -290,7 +290,7 @@ $(document).ready(() => {
         // show questions arbitrarily 
 
         if(numOfQuesCompleted.length === 3){
-          $('.quizImageLg').attr('src', nextElement.imageL)
+          $('.quizImageLg').attr('src', nextElement.imageS)
           $('#quizQues').attr('name', "Plant name")
           $('#quizQues').text("What is the name of this plant in the picture above?")
           let nextElementCommenName = []
