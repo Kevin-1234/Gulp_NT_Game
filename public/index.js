@@ -29,28 +29,31 @@ $(document).ready(() => {
       for(i = 0; i <= correctAnswersPos.length; i++){
         answerIndexes[correctAnswersPos[i]] = correctAnswersIndexs[i]
       }
+      console.log("test")
       console.log("answerIndexes: " + answerIndexes)
-
+      
       //abiarily assign position to incorrect options
       for(i = 0; i < 5 - correctAnswersPos.length; i++){
+        
         var x = Math.floor((Math.random() * allOptions.length - 1) + 1);
         while(answerIndexes.includes(x) || x === correctAnswersIndexs){
           var x = Math.floor((Math.random() * allOptions.length - 1) + 1);
         }
         answerIndexes[answerIndexes.indexOf(-1)] = x
       }
+      
       for(i=0; i <= 4; i++){
         answerOptions[i] = allOptions[answerIndexes[i]]
       }
       console.log(answerOptions)
       $('.choices').fadeOut(200)
 
-
+      // append options
       setTimeout(() => {
         $('.choices').empty()
         for(i = 0; i < answerIndexes.length; i++){
           $('.choices').append(`<input class="hidden" type="checkbox" id="option${i}" name="${answerOptions[i]}" value="${answerOptions[i]}">
-          <label class=" option${i} cursor-pointer h-10  border-solid border-2 rounded-lg border-blue-400 flex justify-center  items-center  py-3 px-6 mt-1 hover:bg-blue-400  hover:text-white transition ease-out duration-300 w-full lg:w-auto md:rounded-full" for="option${i}"> ${answerOptions[i]}</label><br>
+          <label class=" option${i} cursor-pointer h-10  border-solid border-2 rounded-lg border-blue-400 flex justify-center  items-center  py-3 px-6 mt-1 hover:bg-blue-400  hover:text-white transition ease-out duration-300  lg: md:rounded-full" style="width:fit-content; height:fit-content; " for="option${i}"> ${answerOptions[i]}</label><br>
           `)
           }
 
@@ -362,89 +365,200 @@ $(document).ready(() => {
     
 
     
+    const appendDisclaimer = () =>{
 
+      //**** */
+      $('#allQuizzes').addClass('hidden')
+      $('.choices').addClass("flex-col")
+      $('.quizImageLg').attr('src', "public/img/disclaimerfin.jpg")
+      $("main").fadeOut(400);
+        //$(".quiz").removeClass('z-10');
+      $("main").addClass('z-0');
+      $(".quiz").removeClass('z-0');
+      $(".quiz").addClass('z-10');
+      $(".quiz").fadeIn(400);
 
-    $.getJSON('plant-data.json', (data) => {
+      
+      $('#nexBtn').remove()
+      $('.buttomBtns').append(` <button class=" w-24  invisible py-1 bg-green-600 text-white rounded-md focus:ring-4 focus:ring-green-500 focus:ring-opacity-50" id="nexBtn">
+      Next
+      <svg class=" inline-block w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd"></path></svg>
+      
+    </button> `)
+    
+    placesOptions = [
+      "The bush is a public property that anyone can have access to.",
+      "I can harvest items anywhere in the bush.",
+      "It is a free country and I am entitled to go anywhere I want.",
+      "I need the permission from whoever manages the land before I can go in and harvest.",
+      "I am allowed to go anywhere as long as it is safe to do so."
+      
+
+  ]
+    placesAllowed = [
+      "I need the permission from whoever manages the land before I can go in and harvest."
+
+    ]
+
+    plantCollecting = [
+      "I can collect as many plants as I want.",
+      "I need to consider that the plants I collect may be the food source of other animals.",
+      "The plants I collect are my property and I am free to sell them to others.",
+      "I need to make sure that the plants I collect can be regenerated.",
+      "I need permission to sell the harvest plants."
+
+    ]
+    collectingRules = [
+      "I need to make sure that the plants I collect can be regenerated.",
+      "I need to consider that the plants I collect may be the food source of other animals.",
+      "I need permission to sell the harvest plants."
+    ]
+    plantToEat = [
+      "I can eat all the plants found in the bush.",
+      "I can eat all the plants introduced by this website.",
+      "I can eat plants that look nontoxic.",
+      "I can eat plants that look similar to common fruits.",
+      "I should confirm with a knowledgeable person before eating a plant."
+    ]
+    plantEatingRules = [
+      "I should confirm with a knowledgeable person before eating a plant."
+    ]
+
+    $('#quizQues').text("What 'country' are you allowed on?")
+    appendOptions(placesOptions, null, placesAllowed)
+
+    questionIndex = 1
+    $(`#nexBtn`).click( () => {
+      if (questionIndex === 1){
+        $('#quizQues').text("What are the rules for plant collecting?")
+        appendOptions(plantCollecting, null, collectingRules)
+        questionIndex++
+        $('#nexBtn').removeClass("visible")
+        $('#nexBtn').addClass("invisible")
+      }else if (questionIndex === 2){
+        $('#quizQues').text("What plants can you eat?")
+        $('#nexBtn').text("Finish")
+        appendOptions(plantToEat, null, plantEatingRules)
+        questionIndex++
+        disclaimerCompleted = true
+        $('#nexBtn').removeClass("visible")
+        $('#nexBtn').addClass("invisible")
+        
+      }else if (questionIndex === 3){
+        $('#allQuizzes').removeClass('hidden')
+        $('.choices').removeClass("flex-col")
+
+        $(".quiz").fadeOut(400);
+        $("main").removeClass('z-0');
+        $("main").addClass('z-10');
+        $(".quiz").removeClass('z-10');
+        $(".quiz").addClass('z-0');
+        $("main").fadeIn(400);
+       
+        $('#quizQues').attr('name', "Plant name")
+        $('#quizQues').text("What is the name of this plant in the picture above?")
+        $.getJSON('plant-data.json', (data) => {
       
       
 
-      var allPlantName = []
-      var allPlantHabitat = ["0W", "MW", "Riverene / SFR", "Monsoon Vine Thicket", "Sandsheet / Flood plain", "Coastal", "Rocky / Escarpment", "Wetland"]
-      var allEatenPart = ["Seed", "Root", "Fleshy fruit", "Flowers", "Stem"]
+          var allPlantName = []
+          var allPlantHabitat = ["0W", "MW", "Riverene / SFR", "Monsoon Vine Thicket", "Sandsheet / Flood plain", "Coastal", "Rocky / Escarpment", "Wetland"]
+          var allEatenPart = ["Seed", "Root", "Fleshy fruit", "Flowers", "Stem"]
+    
+          data.forEach(el => {
+            allPlantName.push(el.CommenName)
+          })
+    
+          console.log(allPlantHabitat)
+          console.log(allEatenPart)
+          console.log()
+          var index = 0
+          var quizNumber = 1
+          var landingPageData = []
+    
+          for(i = 0; i <= data.length; i++ ){
+    
+            if(i % 2 === 0){
+              landingPageData.push(data[i])
+    
+            }
+          }
+        
+    
+          
+          data.slice(0, Math.floor(data.length / 2) + 1)
+          landingPageData.forEach(el => {
+            
+            $('.cardContainer').append(`<div class="card${index} cursor-pointer rounded-lg bg-white border-gray-200 shadow-md overflow-hidden relative transform hover:scale-110  hover:shadow-lg transition ease-out duration-300"> 
+            <img src="${el.imageS}" class="h-32 h-48 w-full object-cover">
+            <div class="content${index} flex flex-row justify-between px-6 items-center  m-4">
+              <div>
+                <span class="font-bold ">Quiz ${quizNumber}</span>
+                <span class="quizSlogan${index} block text-gray-500 text-sm ">To be completed...</span>
+              </div>
+              
+              <svg class=" status${index} block w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"></path></svg>
+            </div>
+    
+            </div>`)
+    
+            var nextElement = null
+            if(index < data.length - 1){
+    
+              nextElement = data[index + 1]
+              console.log("nextElement:" + nextElement.CommenName)
+            }
+            
+           
+            $(`.card${index}`).click(          
+              toQuiz(el, nextElement, allPlantName, allPlantHabitat, allEatenPart, index)
+            );
+    
+            
+            index += 2
+            quizNumber++
+          })
+          
+    
+          
+        // //   // const nameOptions = []
+    
+        // //   // data.forEach(el => {
+        // //   //   if (!nameOptions.includes(el.CommenName)){
+        // //   //     nameOptions.push(el.CommenName)
+        // //   //   }
+        // //   // })
+    
+    
+    
+    
+    
+    
+    
+    
+          
+    
+    
+         })
 
-      data.forEach(el => {
-        allPlantName.push(el.CommenName)
-      })
-
-      console.log(allPlantHabitat)
-      console.log(allEatenPart)
-      console.log()
-      var index = 0
-      var quizNumber = 1
-      var landingPageData = []
-
-      for(i = 0; i <= data.length; i++ ){
-
-        if(i % 2 === 0){
-          landingPageData.push(data[i])
-
-        }
       }
       
-      //data.slice(0, Math.floor(data.length / 2) + 1)
-      landingPageData.forEach(el => {
-        
-        $('.cardContainer').append(`<div class="card${index} cursor-pointer rounded-lg bg-white border-gray-200 shadow-md overflow-hidden relative transform hover:scale-110  hover:shadow-lg transition ease-out duration-300"> 
-        <img src="${el.imageS}" class="h-32 h-48 w-full object-cover">
-        <div class="content${index} flex flex-row justify-between px-6 items-center  m-4">
-          <div>
-            <span class="font-bold ">Quiz ${quizNumber}</span>
-            <span class="quizSlogan${index} block text-gray-500 text-sm ">To be completed...</span>
-          </div>
-          
-          <svg class=" status${index} block w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clip-rule="evenodd"></path></svg>
-        </div>
+    }
+      
+    )
 
-        </div>`)
+    
+    }
 
-        var nextElement = null
-        if(index < data.length - 1){
+  appendDisclaimer()
+  
 
-          nextElement = data[index + 1]
-          console.log("nextElement:" + nextElement.CommenName)
-        }
-        
-       
-        $(`.card${index}`).click(          
-          toQuiz(el, nextElement, allPlantName, allPlantHabitat, allEatenPart, index)
-        );
-
-        
-        index += 2
-        quizNumber++
-      })
+    
       
 
-      
-      // const nameOptions = []
+    
 
-      // data.forEach(el => {
-      //   if (!nameOptions.includes(el.CommenName)){
-      //     nameOptions.push(el.CommenName)
-      //   }
-      // })
-
-
-
-
-
-
-
-
-      
-
-
-    })
+    
     
 
 
